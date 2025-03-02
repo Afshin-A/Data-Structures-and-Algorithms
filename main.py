@@ -1,0 +1,36 @@
+from Stack.SyntaxCheck import check_syntax
+
+from Queue.Queue import Queue, ArrayQueue
+
+# print(syntax_check_refactored('[({}[][)]'))
+
+# queue = ArrayQueue(5)
+# queue.enqueue(1)
+# queue.enqueue(2)
+# queue.enqueue(3)
+# queue.enqueue(4)
+# queue.enqueue(5)
+# queue.dequeue()
+# queue.enqueue(6)
+# print(queue)
+# print(queue[0])
+# queue.dequeue()
+# print(queue)
+# print(queue[0])
+# queue.dequeue()
+# print(queue)
+# print(queue[0])
+# queue.dequeue()
+# print(queue)
+# print(queue[0])
+# queue.dequeue()
+# print(queue)
+# print(queue[0])
+# queue.dequeue()
+# print(queue)
+# print(queue[0])
+# queue.dequeue()
+# print(queue)
+# print(queue[0])
+
+print(-1 % 8)
