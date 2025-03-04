@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
 import math
 '''
-Priority queue is an abstract data type that behaves just like a normal queue, only nodes leave the queue according to their priority.
-Each node has a numerical value that tells us its priority. PQs are can be implemented using different data structures such as arrays. However,
-the most efficient way are heaps. Heaps are binary trees that follow the heap invariant, i.e. parent elements are >= than their children in a max heap
-or that parents are <= than their children in what's called a min heap. PQs are often used in graph theory algorithms, in Huffman coding, or anytime
-we need to fetch the next best or next worse element in an application
 
+A heap is a tree that satisfies either of the two properties:
+- max heap is a tree where the parent node is greater or equal than its child nodes
+- min heap is a tree where the parent node is smaller or equal than its child nodes
+Note: A tree cannot include cycles
 
 construction O(n)
 polling O(log(n))
@@ -113,10 +112,15 @@ class Heap(ABC):
     def is_empty(self):
         return self._heap_size == 0
     
+    def size(self):
+        return self._heap_size
+    
     def __str__(self):
         return str(self._heap)
  
     def __getitem__(self, i):
+        if i >= self._heap_size or i < 0:
+            raise IndexError
         return self._heap[i]
     
     def __len__(self):
@@ -275,12 +279,12 @@ def heap_sort(array: list[int]):
     return results
 
 
-l = [0, 9, 8, 6, 4, 3, 7, 5, 1, 3]
+# l = [0, 9, 8, 6, 4, 3, 7, 5, 1, 3]
 # print(list(range(len(l))))
 # max_heapify(len(l), l, 0)
 # print('l:', l)
-heap = MaxHeap(l)
-print('heap:', heap)
+# heap = MaxHeap(l)
+# print('heap:', heap)
 
 # print(heap.pop())
 # print(heap)

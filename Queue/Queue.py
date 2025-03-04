@@ -48,9 +48,8 @@ class Queue:
         '''
         return self._queue.remove(data)
     
+    
 # we can use a static array of fixed size if we know the maximum number of elements in our queue
-
-
 class ArrayQueue:
     '''
     This class uses a static array to implement the queue data structure\n
