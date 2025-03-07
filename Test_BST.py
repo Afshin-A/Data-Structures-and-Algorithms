@@ -1,6 +1,6 @@
-from Tree.BinarySearchTree import BST
+import Tree.BinarySearchTree as BST
 
-bst = BST()
+bst = BST.BST()
 
 bst.add2(9)
 bst.add2(3)
@@ -12,4 +12,5 @@ bst.add2(30)
 bst.add2(12)
 bst.add2(1)
 
-bst.dispay3(bst._head)
+print(bst.contains(1))
+bst.display1()
