@@ -1,6 +1,12 @@
 from Stack.SyntaxCheck import check_syntax
 
 from Queue.Queue import Queue, ArrayQueue
+from LinkedList.DoublyLinkedList import DoublyLinkedList
+from HashTable.HashTable import HashtableSeperateChaining
+
+import sys
+
+from random import randint
 
 # print(syntax_check_refactored('[({}[][)]'))
 
@@ -33,4 +39,8 @@ from Queue.Queue import Queue, ArrayQueue
 # print(queue)
 # print(queue[0])
 
-print(-1 % 8)
+hashTable = HashtableSeperateChaining()
+for _ in range(20):
+    hashTable.add(randint(1, 100))
+
+print(hashTable)

@@ -1,3 +1,1 @@
-import Node
-
-Node()
+from Node import Node

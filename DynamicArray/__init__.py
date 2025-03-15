@@ -26,6 +26,17 @@ class DynamicArray:
         Helper function to create an array of given capacity
         """
         return [None] * capacity
+    
+    def _resize(self):
+        # increase capacity
+        self._capacity = self._capacity * 2
+        # create new array with new capacity
+        new_array = self._make_array(self._capacity)
+        # copy all the elements to the new array
+        for index in range(self._length):
+            new_array[index] = self._array[index]
+        self._array = new_array
+        
         
     def __len__(self):
         return self._length
@@ -37,15 +48,7 @@ class DynamicArray:
     
     def append(self, obj):
         if self._length >= self._capacity:
-            # increase capacity
-            self._capacity = self._capacity * 2
-            # create new array with new capacity
-            new_array = self._make_array(self._capacity)
-            # copy all the elements to the new array
-            for index in range(self._length):
-                new_array[index] = self._array[index]
-            self._array = new_array
-            
+            self._resize()
         # append the object to the end of the array
         self._array[self._length] = obj
         # increase length

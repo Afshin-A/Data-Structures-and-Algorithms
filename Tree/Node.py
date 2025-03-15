@@ -3,6 +3,9 @@ from functools import total_ordering
 
 @total_ordering
 class Node:
+    '''Node class specifically used for binary trees
+    Naming convention makes intuition easier
+    '''
     def __init__(self, data:any=None):
         self.left: Node = None
         self.right: Node = None

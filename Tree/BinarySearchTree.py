@@ -37,8 +37,7 @@ class BST:
                     return
         
         self._size += 1
-        
-        
+               
     def add2(self, data):
         '''
         A more readable/factored version of the add method
@@ -66,6 +65,13 @@ class BST:
         
         self._size += 1
         return
+    
+    def find(self, data):
+        pass
+    
+    def remove(self, data):
+        pass
+        
         
     def dispay1(self, current: Node):
         if not current:
