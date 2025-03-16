@@ -18,8 +18,34 @@ def generate_primes(limit):
                 primes[multiple] = False
                 
     return [i for i, j in enumerate(primes) if j]
+
+
+def search(table: list[int], a: int):
+    print(f'searching for {a} in partition {table}')
+    mid = (len(table)-1) // 2
+    
+    if a == table[mid] or len(table) == 1:
+        # found
+        return table[mid]
+    elif a > table[mid]:
+        # search the right partition
+        return search(table[mid+1:len(table)], a)
+    elif a < table[mid]:
+        # search the left partition
+        return search(table[0:mid], a)
+    # elif len(table) == 1:
+    #     return table[0]
+
+def find_next_prime(num):
+    '''
+    Return a prime number immediately larger than the given number
+    '''
+    primes = generate_primes(53)    
+    return search(primes, num)
+    
                 
       
        
-primes_list = generate_primes(10)
-print(primes_list)
+# primes_list = generate_primes(10)
+# print(primes_list)
+print(find_next_prime(21))
