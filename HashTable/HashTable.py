@@ -1,4 +1,5 @@
 from LinkedList.DoublyLinkedList import DoublyLinkedList
+from PrimeAlgorithms import find_next_prime, is_prime
 
 class HashtableSeperateChaining:
     '''
@@ -81,17 +82,7 @@ class HashtableSeperateChaining:
         for i in range(self._capacity):
             string += f'{i}\t{str(self._table[i])}\n'
         return string
-    
-    def probing_function(self):
-        match self._probing_method:
-            case 'linear':
-                pass
-            case 'quadratic':
-                pass
-            case 'double_hash:'
-                pass
-            case _:
-                pass
+
                 
         
 
@@ -114,8 +105,8 @@ class HashTableLinearProbing:
     insert entry at table[index]
     
     '''
-    def __init__(self, capacity=3, maxLoadFactor=2, probing_method='linear'):
-        # table size
+    def __init__(self, capacity=3, maxLoadFactor=0.75, probing_method='linear'):
+        # starting table size
         self._capacity = capacity
         # percentage of all elements in the hashtable. higher percentage means the table is crowded and find/add/remove become less optimized
         # if maxLoadFactor is 2, for example, we resize the table if size is more than twice the capacity
@@ -165,7 +156,13 @@ class HashTableLinearProbing:
     
     
     def resizeTable(self):
-        pass
+        match self._probing_method:
+            case 'linear':
+                pass
+            case 'quadratic:':
+                pass
+            case 'double_hashing':
+                pass
                     
     def __str__(self):
         string = 'index\tbucket\n'
@@ -180,6 +177,7 @@ class HashTableLinearProbing:
         match self._probing_method:
             case 'linear':
                 # return ax where gcd(a, self._size)=1
+                # in other words, a and table size need to be coprimes to avoid an infinite loop 
                 return x
             case 'quadratic':
                 # table size must be a power of 2

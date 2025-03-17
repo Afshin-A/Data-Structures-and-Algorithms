@@ -3,6 +3,7 @@ from warnings import warn
 def generate_primes(limit):
     '''
     Returns a list of prime numbers upto and including limit
+    O(n log(log(n))) why?
     '''
     
     if limit > 10**7:
@@ -33,8 +34,6 @@ def search(table: list[int], a: int):
     elif a < table[mid]:
         # search the left partition
         return search(table[0:mid], a)
-    # elif len(table) == 1:
-    #     return table[0]
 
 def find_next_prime(num):
     '''
@@ -44,8 +43,6 @@ def find_next_prime(num):
     return search(primes, num)
     
                 
-      
+def is_prime(num):
+    return search(generate_primes(num), num) == num
        
-# primes_list = generate_primes(10)
-# print(primes_list)
-print(find_next_prime(21))
