@@ -1,5 +1,6 @@
 from LinkedList.DoublyLinkedList import DoublyLinkedList
 from PrimeAlgorithms import find_next_prime, is_prime
+from random import randint
 
 class HashtableSeperateChaining:
     '''

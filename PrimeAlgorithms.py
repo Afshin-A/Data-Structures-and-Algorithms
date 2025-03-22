@@ -46,3 +46,10 @@ def find_next_prime(num):
 def is_prime(num):
     return search(generate_primes(num), num) == num
        
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+
+
