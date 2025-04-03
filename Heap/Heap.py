@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-import math
-'''
 
+'''
 A heap is a tree that satisfies either of the two properties:
 - max heap is a tree where the parent node is greater or equal than its child nodes
 - min heap is a tree where the parent node is smaller or equal than its child nodes
@@ -21,6 +20,8 @@ class Heap(ABC):
     '''This is an abstract blue print for the MaxHeap and MinHeap classes
     '''
     def __init__(self, array: list[int]):
+        
+        # _heap is a hashmap, element: array_index
         self._heap = array
         self._heap_size = len(array)
     
