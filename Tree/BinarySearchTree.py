@@ -37,6 +37,7 @@ class BST:
                     return
         
         self._size += 1
+               
             
     def add2(self, data):
         '''

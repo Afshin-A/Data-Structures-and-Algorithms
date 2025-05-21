@@ -239,23 +239,26 @@ class DoublyLinkedList:
         '''First finds the index of the first node with the given data, then removes that node from the list\n
         O(n)
         '''
-        self.removeAt(
+        return self.removeAt(
             self.indexOf(data)
         )
+
+
+    def __iter__(self):
+        return DoublyLinkedListIterator(self._head)
     
-            
-        
-if __name__ == '__main__':
-    dls = DoublyLinkedList()
-    dls.addLast(0)
-    dls.addLast(1)
-    dls.addLast(2)
-    dls.addLast(3)
-    dls.addLast(4)
-    dls.addLast(5)
-    # print(dls)
-    # dls.clear()
-    index = dls.contains(4)
-    print(index)
-
-
+    
+    
+class DoublyLinkedListIterator:
+    def __init__(self, start_node):
+        self.current = start_node
+    
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if not self.current:
+            raise StopIteration
+        data = self.current.data
+        self.current = self.current.next
+        return data

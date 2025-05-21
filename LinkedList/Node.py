@@ -6,3 +6,6 @@ class Node:
         
     def __str__(self):
         return f'{self.data}'
+    
+    def hashCode(self):
+        return hash(self.data)
