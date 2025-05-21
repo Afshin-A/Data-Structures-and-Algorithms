@@ -22,28 +22,28 @@ def generate_primes(limit):
     return [i for i, j in enumerate(primes) if j]
 
 
-def next(table: list[int], a: int):
+def next(table: list[int], target: int):
     '''
     Binary search for a number in a list. Returns the number or the next largest number 
     '''
     mid = (len(table)-1) // 2
     
-    if a == len(table) == 1 or table[mid]:
+    if len(table) == 1 or table[mid] == target:
         # found
         return table[mid]
-    elif a > table[mid]:
+    elif target > table[mid]:
         # search the right partition
-        return next(table[mid+1:len(table)], a)
-    elif a < table[mid]:
+        return next(table[mid+1:len(table)], target)
+    elif target < table[mid]:
         # search the left partition
-        return next(table[0:mid], a)
+        return next(table[0:mid], target)
 
 
 def find_next_prime(num):
     '''
     Return a prime number immediately larger than the given number
     '''
-    primes = generate_primes(53)    
+    primes = generate_primes(num)    
     return next(primes, num)
     
                 
@@ -253,6 +253,29 @@ def next_power_of_2(num):
         num = num >> 1
         binary_digits += 1    
     return 1 << binary_digits
+
+
+def add(a, b):
+    '''
+    Adds two numbers using only bitwise operations
+    '''
+    carry = b
+    while carry != 0:
+        carry = (a & b) << 1
+        a = a ^ b
+        b = carry
+    return a
+
+def mod_exp(a, b, n):
+    '''
+    Recursively calculates (a^b) mod n using exponentiation by squares
+    '''
+    if b == 0:
+        return 1
+    if b % 2 == 0:
+        return mod_exp((a * a) % n, b/2, n)
+    else:
+        return (a * mod_exp(a, b-1, n)) % n
 
 # print(log(20, 11))
 

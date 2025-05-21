@@ -45,23 +45,34 @@ class HashMapInterface(ABC):
     
     @abstractmethod
     def _get_new_capacity(self):
+        '''
+        Abstract method. New capacity depends on probing method, so each subclass has its own implementation
+        '''
         pass 
     
     def _resize_table(self):
-        self._get_new_capacity()
+        '''
+        Resizes and distributes all values across the table
+        '''
+        self._capacity = self._get_new_capacity()
         self._threshold = int(self._capacity * self._maxLoadFactor)
-        self._size = 0
         keys_cache = self._keys.copy()
         values_cache = self._values.copy()
+        
+        self._size = 0
         self._keys = [None] * self._capacity 
         self._values = [None] * self._capacity
-        print(self._capacity)
+        
         for key, value in zip(keys_cache, values_cache):
-            # print(i)
-            if key and key != self._TOMBSTONE:
+            # Log: Having written if key caused a logical error where if key is 0, it would not get added to the table
+            # this took forever to debug. Conclusion, use key != None
+            if key != None and key != self._TOMBSTONE:
                 self.add(key, value)
     
     def add(self, key, value):
+        '''
+        Adds a key and corresponding value to the map
+        '''
         if key is None:
             raise ValueError('Key cannot be None')
         
@@ -82,6 +93,10 @@ class HashMapInterface(ABC):
         self._values[i] = value
             
     def find(self, key):
+        '''
+        Finds the index at which key and corresponding value are stored in the internal array
+        If not found, returns -1
+        '''
         i = self.hashCode(key)
         first_tombstone_index = -1
         x = 0
@@ -108,14 +123,33 @@ class HashMapInterface(ABC):
     
     
     def remove(self, key):
+        '''
+        Removes the given key and its corresponding value from the map
+        '''
         index_to_remove = self.find(key)
         if index_to_remove != -1:
             self._keys[index_to_remove] = self._TOMBSTONE
             self._values[index_to_remove] = None
     
+    
+    def keys(self):
+        '''
+        Returns a list of keys
+        O(n)
+        '''
+        # It's inefficient to generate this list every time the function is called, but at this point development of this class as progressed far
+        # beyond making changes in the internal logic of add, find, and remove methods, lest debugging becomes time consuming    
+        return [key for key in self._keys if key != None and key != self._TOMBSTONE]
+        
+    def values(self):
+        '''
+        Returns a list of values
+        '''
+        return [value for value in self._keys if value != None and value != self._TOMBSTONE]
+    
     def __str__(self):
         lines = []
-        lines.append('index\tbucket\n')
+        lines.append('index\tkey\tvalue\n')
         for i in range(self._capacity):
             lines.append(f'{i}\t{str(self._keys[i])}\t{str(self._values[i])}\n')
         return ''.join(lines)
@@ -142,13 +176,13 @@ class HashMapInterface(ABC):
 
 class HashMap(HashMapInterface):
     '''
-    Linear probing
+    Linear probing implementation of a hashmap
     '''  
     def p(self, x, entry):
         return x
     
     def _get_new_capacity(self):
-        self._capacity = find_next_prime(self._capacity * 2)
+        return find_next_prime(self._capacity * 2)
 
 
 class HashMapQuadratic(HashMapInterface):
@@ -156,7 +190,7 @@ class HashMapQuadratic(HashMapInterface):
         return x*(x+1)//2
     
     def _get_new_capacity(self):
-        self._capacity = next_power_of_2(self._capacity * 2)
+        return next_power_of_2(self._capacity * 2)
 
 
 class HashMapDoubleHash(HashMapInterface):
@@ -168,5 +202,5 @@ class HashMapDoubleHash(HashMapInterface):
         return (x*delta) % self._size
     
     def _get_new_capacity(self):
-        self._capacity = find_next_prime(self._capacity * 2)
+        return find_next_prime(self._capacity * 2)
         

@@ -53,7 +53,7 @@ class Queue:
 class ArrayQueue:
     '''
     This class uses a static array to implement the queue data structure\n
-    The queue has a fixed size. Adding enqueuing elements when the queue is full causes an error\n
+    The queue has a fixed capacity. Adding enqueuing elements when the queue is full causes an error\n
     We use modular arithmetic to dynamically calculate the indices for head and tail of the stack. This way, we don't need to 
     move elements around, and enqueue and dequeue will have O(1) time complexities. 
     '''
@@ -74,7 +74,7 @@ class ArrayQueue:
     
     def enqueue(self, data):
         if self.isFull():
-            raise RuntimeError('Queue is alreaddy full. Cannot add more elements at this time')
+            raise RuntimeError('Queue alreaddy at max capacity. Cannot add more elements at this time')
         self._rear = (self._size + self._front) % self._capacity
         self._queue[self._rear] = data
         self._size += 1

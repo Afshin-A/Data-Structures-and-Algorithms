@@ -2,7 +2,26 @@ from abc import ABC, abstractmethod
 from PrimeAlgorithms import find_next_prime, next_power_of_2
 from HashTable.HashTable import Tombstone
 
-class HashTable(ABC):
+class HashTableIterator:
+    def __init__(self, table):
+        self.table = table
+        self.index = 0
+    
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        while self.index < len(self.table):
+            if self.table[self.index] != None and not isinstance(self.table[self.index], Tombstone):
+                self.index += 1
+                return self.table[self.index]
+            self.index += 1
+        raise StopIteration
+
+class HashTableInterface(ABC):
+    def __iter__(self):
+        return HashTableIterator(self._table)
+    
     def __init__(self, capacity=3, maxLoadFactor=0.75):
         if maxLoadFactor >= 1:
             raise ValueError('loadfactor greater than or equal to 1 will cause an infinite loop')
@@ -12,7 +31,7 @@ class HashTable(ABC):
         self._size = 0
         self._table: list[int] = [None] * self._capacity
         self._TOMBSTONE = Tombstone()
-        
+    
     def size(self):
         return self._size    
        
@@ -97,11 +116,28 @@ class HashTable(ABC):
         return ''.join(lines)
     
     def __contains__(self, entry):
+        '''
+        Returns if entry is in the hashtable
+        '''
         return self.contains(entry)
     
     
+    
+    def __getitem__(self, entry):
+        '''
+        Returns the index at which entry is stored in the internal database
+        This doesn't have any applications besides providing a shorter syntax for the custom UnionFind data structure
+        '''
+        index = self.find(entry)
+        return index if index != -1 else None
+    
+    
+    
 
-class HashTableLinearProbe(HashTable):    
+class HashTable(HashTableInterface):
+    '''
+    Hash table that uses linear probing to resolve collisions
+    '''    
     def p(self, x, entry):
         return x
     
@@ -109,7 +145,7 @@ class HashTableLinearProbe(HashTable):
         self._capacity = find_next_prime(self._capacity * 2)
 
 
-class HashTableQuadraticProbe(HashTable):
+class HashTableQuadraticProbe(HashTableInterface):
     def p(self, x, entry):
         return x*(x+1)//2
     
@@ -117,7 +153,7 @@ class HashTableQuadraticProbe(HashTable):
         self._capacity = next_power_of_2(self._capacity * 2)
 
 
-class HashTableDoubleHashProbe(HashTable):
+class HashTableDoubleHashProbe(HashTableInterface):
     def _hash2(self, num):
         return 1 + (num % (self._capacity - 1))
     
