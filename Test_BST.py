@@ -11,6 +11,18 @@ bst.add2(11)
 bst.add2(30)
 bst.add2(12)
 bst.add2(1)
+bst.add2(0)
+bst.add2(2)
 
-print(bst.contains(1))
-bst.display1()
+def display_tree(bst: BST):
+    for node in bst.breathFirst():
+        print(node, end=' ')
+    print('')
+
+# print([str(node) for node in bst.breathFirst()])
+visited, leaf_nodes = bst.depthFirst()
+# print(
+#     [str(node) for node in leaf_nodes]
+# )
+
+print(bst.height())

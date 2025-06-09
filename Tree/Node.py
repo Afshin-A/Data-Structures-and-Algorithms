@@ -6,10 +6,22 @@ class Node:
     '''Node class specifically used for binary trees
     Naming convention makes intuition easier
     '''
-    def __init__(self, data:any=None):
-        self.left: Node = None
-        self.right: Node = None
+    def __init__(self, data:any=None, parent:'Node'=None, left:'Node'=None, right:'Node'=None, height=0):
+        self.parent: Node = parent
+        self.left: Node = left
+        self.right: Node = right
         self.data: int = data
+        self.update(height)
+
+    def update(self, height):
+        self.height = height
+        rightHeight = 0
+        leftHeight = 0
+        if self.right:
+            rightHeight = self.right.height
+        if self.left:
+            leftHeight = self.left.height
+        self.balance_factor = rightHeight - leftHeight
         
     def __str__(self):
         return str(self.data)

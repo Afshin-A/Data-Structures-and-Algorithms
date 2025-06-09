@@ -12,6 +12,9 @@ class Queue:
     def size(self):
         return self._queue.size()
     
+    def isEmpty(self):
+        return self.size() == 0
+    
     def enqueue(self, data):
         '''Adds a node to the bottom of the list\n
         This is sometimes called offer\n
