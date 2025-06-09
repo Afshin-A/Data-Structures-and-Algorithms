@@ -24,9 +24,9 @@ class BST:
         current = self._head
         
         while True:
-            if current:
+            if current != None:
                 if node < current:
-                    if current.left:
+                    if current.left != None:
                         current = current.left
                     else:
                         current.left = node
@@ -54,7 +54,7 @@ class BST:
             return
         
         current = self._head
-        while current:
+        while current != None:
             parent = current
             if node < current:
                 current = current.left

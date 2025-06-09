@@ -1,5 +1,6 @@
 from functools import total_ordering
 # To reduce boiler plate code, total_ordering will generate all comparison methods based on __le__ and __eq__ methods
+from typing import Self
 
 @total_ordering
 class Node:

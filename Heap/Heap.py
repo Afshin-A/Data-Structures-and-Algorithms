@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
-import math
-'''
+from HashTable.HashMap import HashMap
+from HashTable.HashTableOOP import HashTable
 
+# element -> list of indices
+
+'''
 A heap is a tree that satisfies either of the two properties:
 - max heap is a tree where the parent node is greater or equal than its child nodes
 - min heap is a tree where the parent node is smaller or equal than its child nodes
@@ -21,8 +24,15 @@ class Heap(ABC):
     '''This is an abstract blue print for the MaxHeap and MinHeap classes
     '''
     def __init__(self, array: list[int]):
-        self._heap = array
-        self._heap_size = len(array)
+        # _heap is a hashmap, element: array_index
+        self._heap: list = []
+        self._heap_size = 0
+        self._heap_map = HashMap()
+        
+        #TODO: temporary for testing purposes
+        for element in array:
+            self.add(element)
+            
     
     @abstractmethod
     def bubble_down(self, i: int):
@@ -32,14 +42,58 @@ class Heap(ABC):
     def bubble_up(self, i: int):
         pass
     
-    @abstractmethod
-    def bubble_down(self, i: int):
-        pass
+    def printState(self):
+        print('size:', self._heap_size)
+        print('*' * 20)
+        print('array:')
+        print(self._heap)
+        print('*' * 20)
+        print('map:')
+        lines = ['element', '\t', 'indices', '\n']
+        
+        for element, indices in self._heap_map:
+            lines.append(str(element))
+            lines.append('\t')
+            for index in indices:
+                lines.append(str(index))
+                lines.append(' ')
+            lines.append('\n')
+        print(''.join(lines))
     
     def _swap(self, i: int, j: int):
         self._heap[i], self._heap[j] = self._heap[j], self._heap[i]
         # TODO: add code to swap indices inside the hashmap as well
-    
+        i_bucket: HashTable = self._heap_map[self._heap[i]]
+        i_bucket.remove(i)
+        i_bucket.add(j)
+        
+        j_bucket: HashTable = self._heap_map[self._heap[j]]
+        j_bucket.remove(j)
+        j_bucket.add(i)
+        
+        
+    def add(self, element: int):
+        self._heap.append(element)
+        
+        print('attempting to add to map')
+        # current size is insertion index 
+        if element in self._heap_map:
+            self._heap_map[element].append(self._heap_size)
+        else:
+            print(f'{element} is not in map')
+            # initialize a hash table
+            table = HashTable()
+            # add current index
+            table.add(self._heap_size)
+            # add to the hashmap
+            self._heap_map.add(element, table)
+            print(self._heap_map)
+        
+        # increment heap size AFTER so it can be used as index
+        self._heap_size += 1
+        self.bubble_up(self._heap_size - 1)
+        
+        
     def _build(self):
         '''
         O(n) - time complexity is indeed O(n), not O(nlog(n)). Refer to notes
@@ -63,11 +117,6 @@ class Heap(ABC):
     def remove(self, element: int):
         pass
     
-    def add(self, element: int):
-        self._heap.append(element)
-        self._heap_size += 1
-        self.bubble_up(self._heap_size - 1)
-    
     def pop(self):
         '''O(log(n))
         Removes and returns the top most element
@@ -77,6 +126,8 @@ class Heap(ABC):
         # remove the last element
         max = self._heap.pop(-1)
         self._heap_size -= 1
+        
+        #TODO: how should we change the hashmap?
         
         # restore the heap property
         self.bubble_down(0)
@@ -97,8 +148,9 @@ class Heap(ABC):
         using constant time.
         Ideal for when removing lots of elements, however adds overhead
         '''
-        pass
+        return element in self._heap_map
     
+    @abstractmethod
     def remove_advanced(self, element: int):
         pass
     
@@ -107,8 +159,7 @@ class Heap(ABC):
         '''
         self._heap += o._heap
         self._build
-    
-    
+      
     def is_empty(self):
         return self._heap_size == 0
     
@@ -116,7 +167,7 @@ class Heap(ABC):
         return self._heap_size
     
     def __str__(self):
-        return str(self._heap)
+        return str(self._heap) + str(self._heap_map)
  
     def __getitem__(self, i):
         if i >= self._heap_size or i < 0:
@@ -169,6 +220,10 @@ class MaxHeap(Heap):
             self._swap(i, largest)
             # recursive call
             self.bubble_down(largest)
+        else:
+        # returning the index element is inserted. This is used in the hashmap that keeps track of all elements and ther indices
+        # for quick lookup
+            return largest
             
     def bubble_up(self, child_index):
         parent_index = (child_index - 1) // 2
@@ -177,6 +232,8 @@ class MaxHeap(Heap):
         if self._heap[child_index] > self._heap[parent_index]:
             self._swap(child_index, parent_index)
             self.bubble_up(parent_index)
+        else:
+            return child_index
             
     def remove(self, element: int):
         '''O(n)
@@ -212,6 +269,9 @@ class MaxHeap(Heap):
         self._negate_heap()
         self._build()
         self._negate_heap()
+        
+    def remove_advanced(self, element: int):
+        pass
         
 
     
