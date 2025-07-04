@@ -14,11 +14,11 @@ def subsets_tree_solution(l: list[int]) -> list[int]:
     # initialize a complete tree
     solution = []
     # total number of nodes
-    num_nodes = pow(2, len(l)+1) - 1
+    total_nodes = pow(2, len(l)+1) - 1
     # number of internal nodes
-    internal_nodes = floor(num_nodes / 2)
+    internal_nodes = floor(total_nodes / 2)
     # initialize each node to an empty list
-    for i in range(num_nodes):
+    for i in range(total_nodes):
         solution.append([])
     # these determine the range of indices for the nodes in each level in the tree
     i, j = 0, 0
@@ -46,7 +46,7 @@ def subsets_tree_solution(l: list[int]) -> list[int]:
 # l = [randint(1, 10) for _ in range(3)]
 l = [1, 2, 3]
 # print(l)
-# print(sorted(subsets_tree_solution(l)))
+print(sorted(subsets_tree_solution(l)))
 
 
 def subsets_backtrack_solution(l: list[int]):

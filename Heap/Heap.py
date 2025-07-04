@@ -24,9 +24,11 @@ class Heap(ABC):
     '''This is an abstract blue print for the MaxHeap and MinHeap classes
     '''
     def __init__(self, array: list[int]):
-        # _heap is a hashmap, element: array_index
-        self._heap: list = []
+        # main array 
+        self._heap: list[int] = []
         self._heap_size = 0
+        # maps elements to their occurence indices in the heap array 
+        # element -> [x, y, z, ...]
         self._heap_map = HashMap()
         
         #TODO: temporary for testing purposes
@@ -36,10 +38,16 @@ class Heap(ABC):
     
     @abstractmethod
     def bubble_down(self, i: int):
+        '''
+        Restore heap invariant by moving the element at index i back in the array
+        '''
         pass
     
     @abstractmethod
     def bubble_up(self, i: int):
+        '''
+        Restore heap invariant by moving an element at index i up in the array 
+        '''
         pass
     
     def printState(self):
@@ -73,6 +81,9 @@ class Heap(ABC):
         
         
     def add(self, element: int):
+        '''
+        Add element to the end of the array, then bubble it up until it's at the right spot
+        '''
         self._heap.append(element)
         
         print('attempting to add to map')
